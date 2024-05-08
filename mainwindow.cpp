@@ -35,9 +35,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listView->setItemDelegate(new ListViewItemDelegate(ui->listView));
 
     //ui->listView->setDragEnabled(false);
-    //ui->listView->setTextElideMode(Qt::ElideNone);
+    ui->listView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
 
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onTreeViewItem(QModelIndex)));
+
+    connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListViewItemDoubleClicked(QModelIndex)));
+
+    connect(ui->currentPath, SIGNAL(returnPressed()), this, SLOT(currentPathChanged()));
 
     connectButtons();
 }
@@ -67,6 +71,74 @@ void MainWindow::onTreeViewItem(QModelIndex index)
 {
     QString path = dirModel->fileInfo(index).absoluteFilePath();
     ui->listView->setRootIndex(fileModel->setRootPath(path));
+
+    backPaths.append(ui->currentPath->text());
+    forwardPaths.clear();
+
+    ui->currentPath->setText(path);
+}
+
+void MainWindow::currentPathChanged()
+{
+    fileModel->setRootPath(ui->currentPath->text());
+    ui->listView->setRootIndex(fileModel->index(ui->currentPath->text()));
+    //ui->treeView->setCurrentIndex(dirModel->index(ui->currentPath->text()));
+}
+
+void MainWindow::onListViewItemDoubleClicked(QModelIndex index)
+{
+    QString path = fileModel->filePath(index);
+
+    QFileInfo fileInfo(path);
+    if (fileInfo.isDir()) {
+        fileModel->setRootPath(path);
+        ui->listView->setRootIndex(index);
+
+        backPaths.append(ui->currentPath->text());
+        forwardPaths.clear();
+
+        ui->currentPath->setText(path);
+
+        //ui->treeView->setCurrentIndex(dirModel->index(path));
+    } else {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
+    }
+}
+
+void MainWindow::onUpButton()
+{
+    if (!ui->currentPath->text().isEmpty()) {
+        QDir dir(ui->currentPath->text());
+        dir.cdUp();
+        ui->currentPath->setText(dir.absolutePath());
+        currentPathChanged();
+    }
+}
+
+void MainWindow::onBackButton()
+{
+    qDebug() << backPaths << forwardPaths;
+    if (!backPaths.isEmpty() && ui->currentPath->text() != backPaths.first()) {
+        forwardPaths.prepend(ui->currentPath->text()); // Сохраняем текущий путь для возможности вернуться
+
+        QString backPath = backPaths.takeLast();
+        fileModel->setRootPath(backPath);
+        ui->listView->setRootIndex(fileModel->index(backPath));
+        ui->currentPath->setText(backPath);
+    }
+}
+
+void MainWindow::onForwardButton()
+{
+    qDebug() << backPaths << forwardPaths;
+    if (!forwardPaths.isEmpty() && ui->currentPath->text() != forwardPaths.last()) {
+        backPaths.append(ui->currentPath->text()); // Сохраняем текущий путь для возможности вернуться назад
+
+        QString forwardPath = forwardPaths.takeFirst();
+        fileModel->setRootPath(forwardPath);
+        ui->listView->setRootIndex(fileModel->index(forwardPath));
+        ui->currentPath->setText(forwardPath);
+    }
 }
 
 void MainWindow::connectButtons()
@@ -75,4 +147,8 @@ void MainWindow::connectButtons()
     connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(ui->minimizeButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
     connect(ui->maximizeButton, SIGNAL(clicked()), this, SLOT(onButtonMaximize()));
+
+    connect(ui->upButton, SIGNAL(clicked()), this, SLOT(onUpButton()));
+    connect(ui->backButton, SIGNAL(clicked()), this, SLOT(onBackButton()));
+    connect(ui->forwardButton, SIGNAL(clicked()), this, SLOT(onForwardButton()));
 }

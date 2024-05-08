@@ -38,9 +38,10 @@ public:
     ResizableFrame *window;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *titleLayout;
-    QLabel *label;
+    QLabel *appIcon;
     TitleBar *titleBar;
     QHBoxLayout *horizontalLayout;
+    QLabel *appName;
     QSpacerItem *horizontalSpacer_3;
     QPushButton *minimizeButton;
     QPushButton *maximizeButton;
@@ -50,7 +51,7 @@ public:
     QPushButton *backButton;
     QPushButton *forwardButton;
     QPushButton *upButton;
-    QLineEdit *lineEdit;
+    QLineEdit *currentPath;
     QSplitter *splitter;
     TreeView *treeView;
     ListView *listView;
@@ -84,17 +85,17 @@ public:
         titleLayout->setSpacing(5);
         titleLayout->setObjectName("titleLayout");
         titleLayout->setContentsMargins(6, 5, 5, -1);
-        label = new QLabel(window);
-        label->setObjectName("label");
-        label->setMinimumSize(QSize(30, 30));
-        label->setMaximumSize(QSize(30, 30));
-        label->setStyleSheet(QString::fromUtf8("QLabel {\n"
+        appIcon = new QLabel(window);
+        appIcon->setObjectName("appIcon");
+        appIcon->setMinimumSize(QSize(30, 30));
+        appIcon->setMaximumSize(QSize(30, 30));
+        appIcon->setStyleSheet(QString::fromUtf8("QLabel {\n"
 "	border: none;\n"
 "}"));
-        label->setPixmap(QPixmap(QString::fromUtf8(":/filemanager.ico")));
-        label->setScaledContents(true);
+        appIcon->setPixmap(QPixmap(QString::fromUtf8(":/filemanager.ico")));
+        appIcon->setScaledContents(true);
 
-        titleLayout->addWidget(label);
+        titleLayout->addWidget(appIcon);
 
         titleBar = new TitleBar(window);
         titleBar->setObjectName("titleBar");
@@ -107,6 +108,14 @@ public:
         horizontalLayout->setSpacing(2);
         horizontalLayout->setObjectName("horizontalLayout");
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        appName = new QLabel(titleBar);
+        appName->setObjectName("appName");
+        appName->setStyleSheet(QString::fromUtf8("QLabel {\n"
+"	border: none;\n"
+"}"));
+
+        horizontalLayout->addWidget(appName);
+
         horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_3);
@@ -263,10 +272,10 @@ public:
 
         toolbarLayout->addWidget(upButton);
 
-        lineEdit = new QLineEdit(window);
-        lineEdit->setObjectName("lineEdit");
-        lineEdit->setMinimumSize(QSize(0, 32));
-        lineEdit->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
+        currentPath = new QLineEdit(window);
+        currentPath->setObjectName("currentPath");
+        currentPath->setMinimumSize(QSize(0, 32));
+        currentPath->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "	border: 1px solid rgb(47, 50, 60);\n"
 "	border-radius: 5px;\n"
 "	background-color: rgb(38, 41, 51);\n"
@@ -274,7 +283,7 @@ public:
 "	padding-left: 5px;\n"
 "}"));
 
-        toolbarLayout->addWidget(lineEdit);
+        toolbarLayout->addWidget(currentPath);
 
 
         mainLayout->addLayout(toolbarLayout);
@@ -354,6 +363,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\320\244\320\260\320\271\320\273\320\276\320\262\321\213\320\271 \320\274\320\265\320\275\320\265\320\264\320\266\320\265\321\200", nullptr));
+        appName->setText(QCoreApplication::translate("MainWindow", "\320\244\320\260\320\271\320\273\320\276\320\262\321\213\320\271 \320\274\320\265\320\275\320\265\320\264\320\266\320\265\321\200", nullptr));
         minimizeButton->setText(QString());
         maximizeButton->setText(QString());
         closeButton->setText(QString());
