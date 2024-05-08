@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     fileModel = new QFileSystemModel(this);
     fileModel->setFilter(QDir::NoDotAndDotDot | QDir::AllEntries);
     fileModel->setRootPath(QDir::rootPath());
+
     ui->listView->setModel(fileModel);
     ui->listView->setViewMode(QListView::IconMode);
 

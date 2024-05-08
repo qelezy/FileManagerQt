@@ -7,4 +7,6 @@ debug/titlebar.o
 debug/treeview.o
 debug/treeviewitemdelegate.o
 debug/qrc_resources.o
+debug/moc_listview.o
 debug/moc_mainwindow.o
+debug/moc_treeview.o

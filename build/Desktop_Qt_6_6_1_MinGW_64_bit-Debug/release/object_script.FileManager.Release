@@ -7,4 +7,6 @@ release/titlebar.o
 release/treeview.o
 release/treeviewitemdelegate.o
 release/qrc_resources.o
+release/moc_listview.o
 release/moc_mainwindow.o
+release/moc_treeview.o
