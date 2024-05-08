@@ -5,6 +5,7 @@
 #include <QFileSystemModel>
 #include <QDesktopServices>
 #include <QButtonGroup>
+#include <QStandardPaths>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,9 +26,12 @@ private slots:
     void onTreeViewItem(QModelIndex index);
     void currentPathChanged();
     void onListViewItemDoubleClicked(QModelIndex index);
+
     void onUpButton();
     void onBackButton();
     void onForwardButton();
+
+    void onFastMenuButton();
 
 private:
     Ui::MainWindow *ui;

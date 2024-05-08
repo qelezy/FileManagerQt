@@ -89,6 +89,11 @@ void MainWindow::onButtonMaximize()
 
 void MainWindow::onTreeViewItem(QModelIndex index)
 {
+    if (buttonGroup->checkedButton()) {
+        buttonGroup->checkedButton()->setChecked(false);
+        buttonGroup->checkedButton()->setStyleSheet("QPushButton {padding-left: 22px;text-align: left;background-color: rgb(28, 31, 41);color: white;border-radius: 5px;}QPushButton:hover {background-color: rgb(57, 60, 70);}");
+    }
+
     QString path = dirModel->fileInfo(index).absoluteFilePath();
     ui->listView->setRootIndex(fileModel->setRootPath(path));
 
@@ -102,7 +107,7 @@ void MainWindow::currentPathChanged()
 {
     fileModel->setRootPath(ui->currentPath->text());
     ui->listView->setRootIndex(fileModel->index(ui->currentPath->text()));
-    //ui->treeView->setCurrentIndex(dirModel->index(ui->currentPath->text()));
+    ui->treeView->setCurrentIndex(dirModel->index(ui->currentPath->text()));
 }
 
 void MainWindow::onListViewItemDoubleClicked(QModelIndex index)
@@ -119,7 +124,7 @@ void MainWindow::onListViewItemDoubleClicked(QModelIndex index)
 
         ui->currentPath->setText(path);
 
-        //ui->treeView->setCurrentIndex(dirModel->index(path));
+        ui->treeView->setCurrentIndex(dirModel->index(path));
     } else {
         QDesktopServices::openUrl(QUrl::fromLocalFile(path));
     }
@@ -127,14 +132,18 @@ void MainWindow::onListViewItemDoubleClicked(QModelIndex index)
 
 void MainWindow::onUpButton()
 {
-    if (!ui->currentPath->text().isEmpty()) {
-        QDir dir(ui->currentPath->text());
-        dir.cdUp();
-
-        backPaths.append(ui->currentPath->text());
+    QString path = ui->currentPath->text();
+    if (!path.isEmpty()) {
+        QDir dir(path);
+        if (dir.isRoot()) {
+            ui->currentPath->setText("");
+        } else {
+            dir.cdUp();
+            ui->currentPath->setText(dir.absolutePath());
+        }
+        backPaths.append(path);
         forwardPaths.clear();
 
-        ui->currentPath->setText(dir.absolutePath());
         currentPathChanged();
     }
 }
@@ -163,6 +172,35 @@ void MainWindow::onForwardButton()
     }
 }
 
+void MainWindow::onFastMenuButton()
+{
+    ui->treeView->clearSelection();
+    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    button->setStyleSheet("QPushButton {padding-left: 22px;text-align: left;background-color: rgb(28, 31, 41);color: white;border-radius: 5px;}QPushButton:hover {background-color: rgb(57, 60, 70);}QPushButton:checked {background-color: rgb(77, 80, 90);}");
+    QString path;
+    if (button->objectName().contains("desktop")) {
+        path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    } else if (button->objectName().contains("downloads")) {
+        path = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+    } else if (button->objectName().contains("documents")) {
+        path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    } else if (button->objectName().contains("pictures")) {
+        path = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    } else if (button->objectName().contains("music")) {
+        path = QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+    } else if (button->objectName().contains("video")) {
+        path = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    }
+    fileModel->setRootPath(path);
+    ui->listView->setRootIndex(fileModel->index(path));
+
+    backPaths.append(ui->currentPath->text());
+    forwardPaths.clear();
+
+    ui->currentPath->setText(path);
+}
+
+
 void MainWindow::connectButtons()
 {
     // Кнопки окна приложения
@@ -170,7 +208,16 @@ void MainWindow::connectButtons()
     connect(ui->minimizeButton, SIGNAL(clicked()), this, SLOT(showMinimized()));
     connect(ui->maximizeButton, SIGNAL(clicked()), this, SLOT(onButtonMaximize()));
 
+    // Кнопки панели инструментов
     connect(ui->upButton, SIGNAL(clicked()), this, SLOT(onUpButton()));
     connect(ui->backButton, SIGNAL(clicked()), this, SLOT(onBackButton()));
     connect(ui->forwardButton, SIGNAL(clicked()), this, SLOT(onForwardButton()));
+
+    // Кнопки быстрого доступа
+    connect(ui->desktopButton, SIGNAL(clicked()), this, SLOT(onFastMenuButton()));
+    connect(ui->downloadsButton, SIGNAL(clicked()), this, SLOT(onFastMenuButton()));
+    connect(ui->documentsButton, SIGNAL(clicked()), this, SLOT(onFastMenuButton()));
+    connect(ui->picturesButton, SIGNAL(clicked()), this, SLOT(onFastMenuButton()));
+    connect(ui->musicButton, SIGNAL(clicked()), this, SLOT(onFastMenuButton()));
+    connect(ui->videoButton, SIGNAL(clicked()), this, SLOT(onFastMenuButton()));
 }

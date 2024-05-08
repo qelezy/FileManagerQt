@@ -48,11 +48,12 @@ static constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers:
     "onListViewItemDoubleClicked",
     "onUpButton",
     "onBackButton",
-    "onForwardButton"
+    "onForwardButton",
+    "onFastMenuButton"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
-    uint offsetsAndSizes[22];
+    uint offsetsAndSizes[24];
     char stringdata0[11];
     char stringdata1[17];
     char stringdata2[1];
@@ -64,6 +65,7 @@ struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
     char stringdata8[11];
     char stringdata9[13];
     char stringdata10[16];
+    char stringdata11[17];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSMainWindowENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -79,7 +81,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(81, 27),  // "onListViewItemDoubleClicked"
         QT_MOC_LITERAL(109, 10),  // "onUpButton"
         QT_MOC_LITERAL(120, 12),  // "onBackButton"
-        QT_MOC_LITERAL(133, 15)   // "onForwardButton"
+        QT_MOC_LITERAL(133, 15),  // "onForwardButton"
+        QT_MOC_LITERAL(149, 16)   // "onFastMenuButton"
     },
     "MainWindow",
     "onButtonMaximize",
@@ -91,7 +94,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
     "onListViewItemDoubleClicked",
     "onUpButton",
     "onBackButton",
-    "onForwardButton"
+    "onForwardButton",
+    "onFastMenuButton"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -103,7 +107,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -111,19 +115,21 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   56,    2, 0x08,    1 /* Private */,
-       3,    1,   57,    2, 0x08,    2 /* Private */,
-       6,    0,   60,    2, 0x08,    4 /* Private */,
-       7,    1,   61,    2, 0x08,    5 /* Private */,
-       8,    0,   64,    2, 0x08,    7 /* Private */,
-       9,    0,   65,    2, 0x08,    8 /* Private */,
-      10,    0,   66,    2, 0x08,    9 /* Private */,
+       1,    0,   62,    2, 0x08,    1 /* Private */,
+       3,    1,   63,    2, 0x08,    2 /* Private */,
+       6,    0,   66,    2, 0x08,    4 /* Private */,
+       7,    1,   67,    2, 0x08,    5 /* Private */,
+       8,    0,   70,    2, 0x08,    7 /* Private */,
+       9,    0,   71,    2, 0x08,    8 /* Private */,
+      10,    0,   72,    2, 0x08,    9 /* Private */,
+      11,    0,   73,    2, 0x08,   10 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 4,    5,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 4,    5,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -155,6 +161,8 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'onBackButton'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onForwardButton'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onFastMenuButton'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -173,6 +181,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 4: _t->onUpButton(); break;
         case 5: _t->onBackButton(); break;
         case 6: _t->onForwardButton(); break;
+        case 7: _t->onFastMenuButton(); break;
         default: ;
         }
     }
@@ -197,13 +206,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }
