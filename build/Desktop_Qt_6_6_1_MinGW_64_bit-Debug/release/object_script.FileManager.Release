@@ -1,0 +1,10 @@
+release/listview.o
+release/listviewitemdelegate.o
+release/main.o
+release/mainwindow.o
+release/resizableframe.o
+release/titlebar.o
+release/treeview.o
+release/treeviewitemdelegate.o
+release/qrc_resources.o
+release/moc_mainwindow.o

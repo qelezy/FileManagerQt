@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/close_icon.svg</file>
+        <file>icons/fullscreen_exit_icon.svg</file>
+        <file>icons/fullscreen_icon.svg</file>
+        <file>icons/remove_icon.svg</file>
+        <file>filemanager.ico</file>
+        <file>icons/back_arrow.svg</file>
+        <file>icons/forward_arrow.svg</file>
+        <file>icons/up_arrow.svg</file>
+        <file>icons/folder.svg</file>
+    </qresource>
+</RCC>

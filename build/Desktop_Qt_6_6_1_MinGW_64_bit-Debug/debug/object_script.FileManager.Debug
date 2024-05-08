@@ -1,0 +1,10 @@
+debug/listview.o
+debug/listviewitemdelegate.o
+debug/main.o
+debug/mainwindow.o
+debug/resizableframe.o
+debug/titlebar.o
+debug/treeview.o
+debug/treeviewitemdelegate.o
+debug/qrc_resources.o
+debug/moc_mainwindow.o
