@@ -37,6 +37,26 @@ MainWindow::MainWindow(QWidget *parent)
     //ui->listView->setDragEnabled(false);
     ui->listView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
 
+
+    //menu->setMinimumSize(ui->treeView->width(), 0);
+    //toolBar->setStyleSheet("QMenu { border-top-left-radius: 5px; border-top-right-radius: 5px; background-color: rgb(28, 31, 41); } QMenu::item { color: white; } QMenu::item:selected { background-color: rgb(235, 235, 235); } QMenu::icon { padding: 10px; } QMenu::separator { height: 1px; background-color: rgb(200, 200, 200); } QFrame { border: none; } QPushButton { border: none; border-radius: 5px; } QPushButton::hover::!pressed { margin: 1px; border-radius: 9px; } QPushButton::pressed { margin: 3px; border-radius: 7px; }");
+
+    buttonGroup = new QButtonGroup(this);
+    buttonGroup->addButton(ui->desktopButton);
+    buttonGroup->addButton(ui->downloadsButton);
+    buttonGroup->addButton(ui->documentsButton);
+    buttonGroup->addButton(ui->picturesButton);
+    buttonGroup->addButton(ui->musicButton);
+    buttonGroup->addButton(ui->videoButton);
+    connect(buttonGroup, &QButtonGroup::idClicked, this, [=](int id) {
+        buttonGroup->button(id)->setChecked(true);
+        for (auto *button : buttonGroup->buttons()) {
+            if (button->isChecked() && button->objectName() != QString::number(id)) {
+                button->setChecked(false);
+            }
+        }
+    });
+
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onTreeViewItem(QModelIndex)));
 
     connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListViewItemDoubleClicked(QModelIndex)));
@@ -110,6 +130,10 @@ void MainWindow::onUpButton()
     if (!ui->currentPath->text().isEmpty()) {
         QDir dir(ui->currentPath->text());
         dir.cdUp();
+
+        backPaths.append(ui->currentPath->text());
+        forwardPaths.clear();
+
         ui->currentPath->setText(dir.absolutePath());
         currentPathChanged();
     }
@@ -117,7 +141,6 @@ void MainWindow::onUpButton()
 
 void MainWindow::onBackButton()
 {
-    qDebug() << backPaths << forwardPaths;
     if (!backPaths.isEmpty() && ui->currentPath->text() != backPaths.first()) {
         forwardPaths.prepend(ui->currentPath->text()); // Сохраняем текущий путь для возможности вернуться
 
@@ -130,7 +153,6 @@ void MainWindow::onBackButton()
 
 void MainWindow::onForwardButton()
 {
-    qDebug() << backPaths << forwardPaths;
     if (!forwardPaths.isEmpty() && ui->currentPath->text() != forwardPaths.last()) {
         backPaths.append(ui->currentPath->text()); // Сохраняем текущий путь для возможности вернуться назад
 

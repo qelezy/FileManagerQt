@@ -9,5 +9,12 @@
         <file>icons/forward_arrow.svg</file>
         <file>icons/up_arrow.svg</file>
         <file>icons/folder.svg</file>
+        <file>icons/desktop_icon.svg</file>
+        <file>icons/downloads_icon.svg</file>
+        <file>icons/documents_icon.svg</file>
+        <file>icons/pictures_icon.svg</file>
+        <file>icons/music_icon.svg</file>
+        <file>icons/video_icon.svg</file>
+        <file>icons/disk.svg</file>
     </qresource>
 </RCC>

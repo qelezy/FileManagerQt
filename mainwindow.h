@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFileSystemModel>
 #include <QDesktopServices>
+#include <QButtonGroup>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -34,6 +35,7 @@ private:
     QFileSystemModel *dirModel, *fileModel;
     QString currentPath;
     QList<QString> backPaths, forwardPaths;
+    QButtonGroup *buttonGroup;
 
     void connectButtons();
 };

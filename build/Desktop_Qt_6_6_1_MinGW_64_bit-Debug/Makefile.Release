@@ -134,13 +134,20 @@ release/qrc_resources.cpp: ../../resources.qrc \
 		../../../../6.6.1/mingw_64/bin/rcc.exe \
 		../../filemanager.ico \
 		../../icons/fullscreen_exit_icon.svg \
+		../../icons/desktop_icon.svg \
 		../../icons/folder.svg \
+		../../icons/disk.svg \
 		../../icons/remove_icon.svg \
 		../../icons/forward_arrow.svg \
 		../../icons/back_arrow.svg \
 		../../icons/fullscreen_icon.svg \
+		../../icons/downloads_icon.svg \
+		../../icons/documents_icon.svg \
+		../../icons/pictures_icon.svg \
 		../../icons/up_arrow.svg \
-		../../icons/close_icon.svg
+		../../icons/close_icon.svg \
+		../../icons/video_icon.svg \
+		../../icons/music_icon.svg
 	D:\Qt\6.6.1\mingw_64\bin\rcc.exe -name resources --no-zstd ..\..\resources.qrc -o release\qrc_resources.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h
@@ -329,6 +336,10 @@ release/moc_mainwindow.cpp: ../../mainwindow.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qlocale.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qtimezone.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qdiriterator.h \
+		../../../../6.6.1/mingw_64/include/QtGui/QDesktopServices \
+		../../../../6.6.1/mingw_64/include/QtGui/qdesktopservices.h \
+		../../../../6.6.1/mingw_64/include/QtWidgets/QButtonGroup \
+		../../../../6.6.1/mingw_64/include/QtWidgets/qbuttongroup.h \
 		release/moc_predefs.h \
 		../../../../6.6.1/mingw_64/bin/moc.exe
 	D:\Qt\6.6.1\mingw_64\bin\moc.exe $(DEFINES) --include D:/Qt/Projects/FileManager/build/Desktop_Qt_6_6_1_MinGW_64_bit-Debug/release/moc_predefs.h -ID:/Qt/6.6.1/mingw_64/mkspecs/win32-g++ -ID:/Qt/Projects/FileManager -ID:/Qt/6.6.1/mingw_64/include -ID:/Qt/6.6.1/mingw_64/include/QtWidgets -ID:/Qt/6.6.1/mingw_64/include/QtGui -ID:/Qt/6.6.1/mingw_64/include/QtCore -I. -ID:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\mainwindow.h -o release\moc_mainwindow.cpp
@@ -1426,7 +1437,12 @@ release/listviewitemdelegate.o: ../../listviewitemdelegate.cpp ../../listviewite
 		../../../../6.6.1/mingw_64/include/QtGui/QPainter \
 		../../../../6.6.1/mingw_64/include/QtGui/qpainter.h \
 		../../../../6.6.1/mingw_64/include/QtGui/qtextoption.h \
-		../../../../6.6.1/mingw_64/include/QtGui/qpen.h
+		../../../../6.6.1/mingw_64/include/QtGui/qpen.h \
+		../../../../6.6.1/mingw_64/include/QtWidgets/QFileIconProvider \
+		../../../../6.6.1/mingw_64/include/QtWidgets/qfileiconprovider.h \
+		../../../../6.6.1/mingw_64/include/QtGui/qabstractfileiconprovider.h \
+		../../../../6.6.1/mingw_64/include/QtGui/QTextDocument \
+		../../../../6.6.1/mingw_64/include/QtGui/qtextdocument.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\listviewitemdelegate.o ..\..\listviewitemdelegate.cpp
 
 release/main.o: ../../main.cpp ../../mainwindow.h \
@@ -1606,6 +1622,10 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qlocale.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qtimezone.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qdiriterator.h \
+		../../../../6.6.1/mingw_64/include/QtGui/QDesktopServices \
+		../../../../6.6.1/mingw_64/include/QtGui/qdesktopservices.h \
+		../../../../6.6.1/mingw_64/include/QtWidgets/QButtonGroup \
+		../../../../6.6.1/mingw_64/include/QtWidgets/qbuttongroup.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/QApplication \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qapplication.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qcoreapplication.h \
@@ -1806,6 +1826,10 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qlocale.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qtimezone.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qdiriterator.h \
+		../../../../6.6.1/mingw_64/include/QtGui/QDesktopServices \
+		../../../../6.6.1/mingw_64/include/QtGui/qdesktopservices.h \
+		../../../../6.6.1/mingw_64/include/QtWidgets/QButtonGroup \
+		../../../../6.6.1/mingw_64/include/QtWidgets/qbuttongroup.h \
 		ui_mainwindow.h \
 		../../../../6.6.1/mingw_64/include/QtCore/QVariant \
 		../../../../6.6.1/mingw_64/include/QtGui/QIcon \
@@ -1830,6 +1854,8 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		../../../../6.6.1/mingw_64/include/QtGui/qguiapplication.h \
 		../../../../6.6.1/mingw_64/include/QtGui/qinputmethod.h \
 		../../../../6.6.1/mingw_64/include/QtGui/qguiapplication_platform.h \
+		../../../../6.6.1/mingw_64/include/QtWidgets/QFrame \
+		../../../../6.6.1/mingw_64/include/QtWidgets/qframe.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/QGridLayout \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qgridlayout.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qlayout.h \
@@ -1840,7 +1866,6 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qheaderview.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qabstractitemview.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		../../../../6.6.1/mingw_64/include/QtWidgets/qframe.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qitemselectionmodel.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qstyleoption.h \
@@ -1874,7 +1899,6 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		../../../../6.6.1/mingw_64/include/QtWidgets/QListView \
 		../../../../6.6.1/mingw_64/include/QtWidgets/qlistview.h \
 		../../resizableframe.h \
-		../../../../6.6.1/mingw_64/include/QtWidgets/QFrame \
 		../../../../6.6.1/mingw_64/include/QtGui/QMouseEvent \
 		../../titlebar.h \
 		../../treeview.h \
@@ -1886,7 +1910,11 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		../../../../6.6.1/mingw_64/include/QtCore/QFileInfo \
 		../../../../6.6.1/mingw_64/include/QtGui/QPainter \
 		../../../../6.6.1/mingw_64/include/QtGui/qpainter.h \
-		../../listviewitemdelegate.h
+		../../listviewitemdelegate.h \
+		../../../../6.6.1/mingw_64/include/QtWidgets/QFileIconProvider \
+		../../../../6.6.1/mingw_64/include/QtWidgets/qfileiconprovider.h \
+		../../../../6.6.1/mingw_64/include/QtGui/qabstractfileiconprovider.h \
+		../../../../6.6.1/mingw_64/include/QtGui/QTextDocument
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\..\mainwindow.cpp
 
 release/resizableframe.o: ../../resizableframe.cpp ../../resizableframe.h \
@@ -2239,7 +2267,11 @@ release/titlebar.o: ../../titlebar.cpp ../../titlebar.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qcalendar.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qlocale.h \
 		../../../../6.6.1/mingw_64/include/QtCore/qtimezone.h \
-		../../../../6.6.1/mingw_64/include/QtCore/qdiriterator.h
+		../../../../6.6.1/mingw_64/include/QtCore/qdiriterator.h \
+		../../../../6.6.1/mingw_64/include/QtGui/QDesktopServices \
+		../../../../6.6.1/mingw_64/include/QtGui/qdesktopservices.h \
+		../../../../6.6.1/mingw_64/include/QtWidgets/QButtonGroup \
+		../../../../6.6.1/mingw_64/include/QtWidgets/qbuttongroup.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\titlebar.o ..\..\titlebar.cpp
 
 release/treeview.o: ../../treeview.cpp ../../treeview.h \

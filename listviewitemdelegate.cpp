@@ -6,7 +6,7 @@ ListViewItemDelegate::ListViewItemDelegate(QObject *parent) : QStyledItemDelegat
     iconSize = 64;
     textWidth = 72;
     fileIconOffset = 14;
-    roundingRadius = 10;
+    roundingRadius = 5;
 }
 
 void ListViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -14,7 +14,30 @@ void ListViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     if (index.isValid()) {
         QString filePath = index.data(QFileSystemModel::FilePathRole).toString();
         QFileInfo fileInfo(filePath);
-        if (fileInfo.isDir()) {
+        if (fileInfo.isRoot()) {
+            QBrush backgroundBrush = Qt::transparent;
+            if (option.state & QStyle::State_Selected) {
+                backgroundBrush = QColor(77, 80, 90);
+            } else if (option.state & QStyle::State_MouseOver) {
+                backgroundBrush = QColor(57, 60, 70);
+            }
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(backgroundBrush);
+            painter->drawRoundedRect(option.rect, roundingRadius, roundingRadius);
+
+            QIcon icon(":/icons/disk.svg");
+            icon.paint(painter, QRect(option.rect.x() + (option.rect.width() - iconSize) / 2, option.rect.y(), iconSize, iconSize), Qt::AlignHCenter | Qt::AlignTop);
+
+            // Отображение текста элемента под иконкой
+            painter->setPen(Qt::white);
+            QString text = index.data(Qt::DisplayRole).toString();
+
+            QTextOption textOption;
+            textOption.setAlignment(Qt::AlignHCenter);
+            textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+
+            painter->drawText(QRect(option.rect.x() + (option.rect.width() - textWidth) / 2, option.rect.y() + iconSize, textWidth, option.rect.height()), text, textOption);
+        } else if (fileInfo.isDir()) {
             QBrush backgroundBrush = Qt::transparent;
             if (option.state & QStyle::State_Selected) {
                 backgroundBrush = QColor(77, 80, 90);
