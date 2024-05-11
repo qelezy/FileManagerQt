@@ -513,6 +513,7 @@ public:
 "	background-color: rgb(38, 41, 51);\n"
 "	padding: 10px;\n"
 "}"));
+        listView->setIconSize(QSize(0, 0));
         listView->setFlow(QListView::LeftToRight);
         listView->setSpacing(5);
         listView->setWordWrap(true);

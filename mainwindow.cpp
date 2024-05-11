@@ -36,11 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listView->setItemDelegate(new ListViewItemDelegate(ui->listView));
 
     //ui->listView->setDragEnabled(false);
-    ui->listView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
-
-
-    //menu->setMinimumSize(ui->treeView->width(), 0);
-    //toolBar->setStyleSheet("QMenu { border-top-left-radius: 5px; border-top-right-radius: 5px; background-color: rgb(28, 31, 41); } QMenu::item { color: white; } QMenu::item:selected { background-color: rgb(235, 235, 235); } QMenu::icon { padding: 10px; } QMenu::separator { height: 1px; background-color: rgb(200, 200, 200); } QFrame { border: none; } QPushButton { border: none; border-radius: 5px; } QPushButton::hover::!pressed { margin: 1px; border-radius: 9px; } QPushButton::pressed { margin: 3px; border-radius: 7px; }");
 
     buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(ui->desktopButton);

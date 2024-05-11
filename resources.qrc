@@ -16,5 +16,11 @@
         <file>icons/music_icon.svg</file>
         <file>icons/video_icon.svg</file>
         <file>icons/disk.svg</file>
+        <file>icons/createfile.svg</file>
+        <file>icons/createfolder.svg</file>
+        <file>icons/iconmode.svg</file>
+        <file>icons/listmode.svg</file>
+        <file>icons/viewmenu.svg</file>
+        <file>icons/properties.svg</file>
     </qresource>
 </RCC>
