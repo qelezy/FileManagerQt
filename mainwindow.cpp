@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listView->setItemDelegate(new ListViewItemDelegate(ui->listView));
 
     //ui->listView->setDragEnabled(false);
+    //ui->listView->setWrapping(false);
 
     buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(ui->desktopButton);

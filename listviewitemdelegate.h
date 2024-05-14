@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QFileIconProvider>
 #include <QTextDocument>
+#include <QListView>
 
 class ListViewItemDelegate : public QStyledItemDelegate
 {
@@ -16,7 +17,7 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
-    int elementWidth, iconSize, textWidth, fileIconOffset, roundingRadius;
+    int elementWidth, iconSizeIconMode, iconSizeListMode, textWidth, fileIconOffset, textOffsetListMode, roundingRadius;
 };
 
 #endif // LISTVIEWITEMDELEGATE_H
