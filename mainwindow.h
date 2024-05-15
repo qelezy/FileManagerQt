@@ -23,9 +23,9 @@ public:
 
 private slots:
     void onButtonMaximize();
-    void onTreeViewItem(QModelIndex index);
+    void onDirViewItem(QModelIndex index);
     void currentPathChanged();
-    void onListViewItemDoubleClicked(QModelIndex index);
+    void onFileViewItemDoubleClicked(QModelIndex index);
 
     void onUpButton();
     void onBackButton();

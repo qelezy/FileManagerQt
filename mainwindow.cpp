@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "treeviewitemdelegate.h"
-#include "listviewitemdelegate.h"
+#include "fileviewitemdelegate.h"
+#include "filesystemmodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,17 +27,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->treeView->setItemDelegate(new TreeViewItemDelegate(ui->treeView));
 
-    fileModel = new QFileSystemModel(this);
-    fileModel->setFilter(QDir::NoDotAndDotDot | QDir::AllEntries);
-    fileModel->setRootPath(QDir::rootPath());
+    fileModel = new FileSystemModel(this);
+    fileModel->setReadOnly(false);
 
-    ui->listView->setModel(fileModel);
-    ui->listView->setViewMode(QListView::IconMode);
+    ui->stackedWidget->listView->setModel(fileModel);
 
-    ui->listView->setItemDelegate(new ListViewItemDelegate(ui->listView));
+    ui->stackedWidget->treeView->setModel(fileModel);
 
-    //ui->listView->setDragEnabled(false);
-    //ui->listView->setWrapping(false);
+    ui->stackedWidget->listView->setItemDelegate(new FileViewItemDelegate(ui->stackedWidget->listView));
+    ui->stackedWidget->treeView->setItemDelegate(new FileViewItemDelegate(ui->stackedWidget->treeView));
+
+    ui->stackedWidget->treeView->setEditTriggers(QAbstractItemView::EditKeyPressed);
 
     buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(ui->desktopButton);
@@ -54,9 +55,10 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
 
-    connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onTreeViewItem(QModelIndex)));
+    connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onDirViewItem(QModelIndex)));
 
-    connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListViewItemDoubleClicked(QModelIndex)));
+    connect(ui->stackedWidget->listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onFileViewItemDoubleClicked(QModelIndex)));
+    connect(ui->stackedWidget->treeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onFileViewItemDoubleClicked(QModelIndex)));
 
     connect(ui->currentPath, SIGNAL(returnPressed()), this, SLOT(currentPathChanged()));
 
@@ -84,7 +86,7 @@ void MainWindow::onButtonMaximize()
     }
 }
 
-void MainWindow::onTreeViewItem(QModelIndex index)
+void MainWindow::onDirViewItem(QModelIndex index)
 {
     if (buttonGroup->checkedButton()) {
         buttonGroup->checkedButton()->setChecked(false);
@@ -92,7 +94,8 @@ void MainWindow::onTreeViewItem(QModelIndex index)
     }
 
     QString path = dirModel->fileInfo(index).absoluteFilePath();
-    ui->listView->setRootIndex(fileModel->setRootPath(path));
+    ui->stackedWidget->listView->setRootIndex(fileModel->setRootPath(path));
+    ui->stackedWidget->treeView->setRootIndex(fileModel->setRootPath(path));
 
     backPaths.append(ui->currentPath->text());
     forwardPaths.clear();
@@ -103,18 +106,20 @@ void MainWindow::onTreeViewItem(QModelIndex index)
 void MainWindow::currentPathChanged()
 {
     fileModel->setRootPath(ui->currentPath->text());
-    ui->listView->setRootIndex(fileModel->index(ui->currentPath->text()));
+    ui->stackedWidget->listView->setRootIndex(fileModel->index(ui->currentPath->text()));
+    ui->stackedWidget->treeView->setRootIndex(fileModel->index(ui->currentPath->text()));
     ui->treeView->setCurrentIndex(dirModel->index(ui->currentPath->text()));
 }
 
-void MainWindow::onListViewItemDoubleClicked(QModelIndex index)
+void MainWindow::onFileViewItemDoubleClicked(QModelIndex index)
 {
     QString path = fileModel->filePath(index);
 
     QFileInfo fileInfo(path);
     if (fileInfo.isDir()) {
         fileModel->setRootPath(path);
-        ui->listView->setRootIndex(index);
+        ui->stackedWidget->listView->setRootIndex(index);
+        ui->stackedWidget->treeView->setRootIndex(fileModel->index(path));
 
         backPaths.append(ui->currentPath->text());
         forwardPaths.clear();
@@ -152,7 +157,8 @@ void MainWindow::onBackButton()
 
         QString backPath = backPaths.takeLast();
         fileModel->setRootPath(backPath);
-        ui->listView->setRootIndex(fileModel->index(backPath));
+        ui->stackedWidget->listView->setRootIndex(fileModel->index(backPath));
+        ui->stackedWidget->treeView->setRootIndex(fileModel->index(backPath));
         ui->currentPath->setText(backPath);
     }
 }
@@ -164,7 +170,8 @@ void MainWindow::onForwardButton()
 
         QString forwardPath = forwardPaths.takeFirst();
         fileModel->setRootPath(forwardPath);
-        ui->listView->setRootIndex(fileModel->index(forwardPath));
+        ui->stackedWidget->listView->setRootIndex(fileModel->index(forwardPath));
+        ui->stackedWidget->treeView->setRootIndex(fileModel->index(forwardPath));
         ui->currentPath->setText(forwardPath);
     }
 }
@@ -189,7 +196,8 @@ void MainWindow::onFastMenuButton()
         path = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
     }
     fileModel->setRootPath(path);
-    ui->listView->setRootIndex(fileModel->index(path));
+    ui->stackedWidget->listView->setRootIndex(fileModel->index(path));
+    ui->stackedWidget->treeView->setRootIndex(fileModel->index(path));
 
     backPaths.append(ui->currentPath->text());
     forwardPaths.clear();

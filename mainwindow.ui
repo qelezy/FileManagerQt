@@ -474,7 +474,7 @@ QPushButton:pressed {
             <number>0</number>
            </property>
            <property name="childrenCollapsible">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <widget class="QWidget" name="verticalLayoutWidget">
             <layout class="QVBoxLayout" name="verticalLayout">
@@ -819,39 +819,67 @@ QTreeView::item:selected {
              </item>
             </layout>
            </widget>
-           <widget class="ListView" name="listView">
+           <widget class="StackedWidget" name="stackedWidget">
             <property name="minimumSize">
              <size>
               <width>0</width>
               <height>0</height>
              </size>
             </property>
-            <property name="mouseTracking">
-             <bool>true</bool>
-            </property>
             <property name="styleSheet">
-             <string notr="true">QListView {
+             <string notr="true">QStackedWidget {
+	padding: 10px;
 	border: 1px solid rgb(47, 50, 60);
 	border-radius: 5px;
-	background-color: rgb(38, 41, 51);
-	padding: 10px;
+}
+QListView {
+	border: none;
+}
+QTreeView {
+	border: none;
+}
+QTreeView::branch {
+	image: none;
+}
+QHeaderView {
+	border: none;
+	border-radius: 5px;
+}
+QHeaderView::section {
+	background-color: rgb(28, 31, 41);
+	color: white;
+	border: none;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+QHeaderView::section:middle {
+	border-left: 1px solid rgb(47, 50, 60);
+}
+QHeaderView::section:first {
+	border-top-left-radius: 5px;
+}
+QHeaderView::section:last {
+	border-left: 1px solid rgb(47, 50, 60);
+	border-right: 1px solid rgb(47, 50, 60);
+}
+QHeaderView::up-arrow {
+	width:  8px;
+	height: 8px;
+	image: url(:/icons/up_arrow_2.svg);
+	subcontrol-position: top;
+}
+QHeaderView::down-arrow {
+	width:  8px;
+	height: 8px;
+	image: url(:/icons/down_arrow.svg);
+	subcontrol-position: top;
+}
+QHeaderView::section:hover {
+	background-color: rgb(57, 60, 70);
 }</string>
             </property>
-            <property name="iconSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="flow">
-             <enum>QListView::LeftToRight</enum>
-            </property>
-            <property name="spacing">
-             <number>5</number>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
+            <widget class="QWidget" name="page"/>
+            <widget class="QWidget" name="page_2"/>
            </widget>
           </widget>
          </item>
@@ -882,9 +910,10 @@ QTreeView::item:selected {
    <header location="global">treeview.h</header>
   </customwidget>
   <customwidget>
-   <class>ListView</class>
-   <extends>QListView</extends>
-   <header location="global">listview.h</header>
+   <class>StackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header location="global">stackedwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

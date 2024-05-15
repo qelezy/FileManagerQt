@@ -9,20 +9,22 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    listview.cpp \
-    listviewitemdelegate.cpp \
+    filesystemmodel.cpp \
+    fileviewitemdelegate.cpp \
     main.cpp \
     mainwindow.cpp \
     resizableframe.cpp \
+    stackedwidget.cpp \
     titlebar.cpp \
     treeview.cpp \
     treeviewitemdelegate.cpp
 
 HEADERS += \
-    listview.h \
-    listviewitemdelegate.h \
+    filesystemmodel.h \
+    fileviewitemdelegate.h \
     mainwindow.h \
     resizableframe.h \
+    stackedwidget.h \
     titlebar.h \
     treeview.h \
     treeviewitemdelegate.h

@@ -9,9 +9,8 @@ void TreeViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         QFileInfo fileInfo(filePath);
         if (fileInfo.isRoot()) {
             QIcon icon(":/icons/disk.svg");
-            QRect iconRect = option.rect;
-            QSize iconSize = icon.actualSize(iconRect.size());
-            icon.paint(painter, iconRect, Qt::AlignLeft);
+            QSize iconSize = icon.actualSize(option.rect.size());
+            icon.paint(painter, QRect(option.rect.x(), option.rect.y(), 28, 28), Qt::AlignLeft | Qt::AlignVCenter);
 
             // Отображение текста элемента после иконки
             QString text = index.data(Qt::DisplayRole).toString();
@@ -19,9 +18,8 @@ void TreeViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
             painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, text);
         } else if (fileInfo.isDir()) {
             QIcon icon(":/icons/folder.svg");
-            QRect iconRect = option.rect;
-            QSize iconSize = icon.actualSize(iconRect.size());
-            icon.paint(painter, iconRect, Qt::AlignLeft);
+            QSize iconSize = icon.actualSize(option.rect.size());
+            icon.paint(painter, QRect(option.rect.x(), option.rect.y(), 28, 28), Qt::AlignLeft | Qt::AlignVCenter);
 
             // Отображение текста элемента после иконки
             QString text = index.data(Qt::DisplayRole).toString();

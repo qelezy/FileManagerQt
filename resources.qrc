@@ -22,5 +22,7 @@
         <file>icons/listmode.svg</file>
         <file>icons/viewmenu.svg</file>
         <file>icons/properties.svg</file>
+        <file>icons/down_arrow.svg</file>
+        <file>icons/up_arrow_2.svg</file>
     </qresource>
 </RCC>

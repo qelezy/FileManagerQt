@@ -41,11 +41,11 @@ static constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers:
     "MainWindow",
     "onButtonMaximize",
     "",
-    "onTreeViewItem",
+    "onDirViewItem",
     "QModelIndex",
     "index",
     "currentPathChanged",
-    "onListViewItemDoubleClicked",
+    "onFileViewItemDoubleClicked",
     "onUpButton",
     "onBackButton",
     "onForwardButton",
@@ -57,7 +57,7 @@ struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
     char stringdata0[11];
     char stringdata1[17];
     char stringdata2[1];
-    char stringdata3[15];
+    char stringdata3[14];
     char stringdata4[12];
     char stringdata5[6];
     char stringdata6[19];
@@ -74,24 +74,24 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(0, 10),  // "MainWindow"
         QT_MOC_LITERAL(11, 16),  // "onButtonMaximize"
         QT_MOC_LITERAL(28, 0),  // ""
-        QT_MOC_LITERAL(29, 14),  // "onTreeViewItem"
-        QT_MOC_LITERAL(44, 11),  // "QModelIndex"
-        QT_MOC_LITERAL(56, 5),  // "index"
-        QT_MOC_LITERAL(62, 18),  // "currentPathChanged"
-        QT_MOC_LITERAL(81, 27),  // "onListViewItemDoubleClicked"
-        QT_MOC_LITERAL(109, 10),  // "onUpButton"
-        QT_MOC_LITERAL(120, 12),  // "onBackButton"
-        QT_MOC_LITERAL(133, 15),  // "onForwardButton"
-        QT_MOC_LITERAL(149, 16)   // "onFastMenuButton"
+        QT_MOC_LITERAL(29, 13),  // "onDirViewItem"
+        QT_MOC_LITERAL(43, 11),  // "QModelIndex"
+        QT_MOC_LITERAL(55, 5),  // "index"
+        QT_MOC_LITERAL(61, 18),  // "currentPathChanged"
+        QT_MOC_LITERAL(80, 27),  // "onFileViewItemDoubleClicked"
+        QT_MOC_LITERAL(108, 10),  // "onUpButton"
+        QT_MOC_LITERAL(119, 12),  // "onBackButton"
+        QT_MOC_LITERAL(132, 15),  // "onForwardButton"
+        QT_MOC_LITERAL(148, 16)   // "onFastMenuButton"
     },
     "MainWindow",
     "onButtonMaximize",
     "",
-    "onTreeViewItem",
+    "onDirViewItem",
     "QModelIndex",
     "index",
     "currentPathChanged",
-    "onListViewItemDoubleClicked",
+    "onFileViewItemDoubleClicked",
     "onUpButton",
     "onBackButton",
     "onForwardButton",
@@ -148,12 +148,12 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>,
         // method 'onButtonMaximize'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onTreeViewItem'
+        // method 'onDirViewItem'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QModelIndex, std::false_type>,
         // method 'currentPathChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onListViewItemDoubleClicked'
+        // method 'onFileViewItemDoubleClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QModelIndex, std::false_type>,
         // method 'onUpButton'
@@ -175,9 +175,9 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         (void)_t;
         switch (_id) {
         case 0: _t->onButtonMaximize(); break;
-        case 1: _t->onTreeViewItem((*reinterpret_cast< std::add_pointer_t<QModelIndex>>(_a[1]))); break;
+        case 1: _t->onDirViewItem((*reinterpret_cast< std::add_pointer_t<QModelIndex>>(_a[1]))); break;
         case 2: _t->currentPathChanged(); break;
-        case 3: _t->onListViewItemDoubleClicked((*reinterpret_cast< std::add_pointer_t<QModelIndex>>(_a[1]))); break;
+        case 3: _t->onFileViewItemDoubleClicked((*reinterpret_cast< std::add_pointer_t<QModelIndex>>(_a[1]))); break;
         case 4: _t->onUpButton(); break;
         case 5: _t->onBackButton(); break;
         case 6: _t->onForwardButton(); break;

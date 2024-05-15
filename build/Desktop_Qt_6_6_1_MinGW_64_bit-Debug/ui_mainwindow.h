@@ -24,8 +24,8 @@
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include <listview.h>
 #include <resizableframe.h>
+#include <stackedwidget.h>
 #include <titlebar.h>
 #include <treeview.h>
 
@@ -66,7 +66,9 @@ public:
     QFrame *line;
     QSpacerItem *verticalSpacer_2;
     TreeView *treeView;
-    ListView *listView;
+    StackedWidget *stackedWidget;
+    QWidget *page;
+    QWidget *page_2;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -307,7 +309,7 @@ public:
 "}"));
         splitter->setOrientation(Qt::Horizontal);
         splitter->setHandleWidth(0);
-        splitter->setChildrenCollapsible(true);
+        splitter->setChildrenCollapsible(false);
         verticalLayoutWidget = new QWidget(splitter);
         verticalLayoutWidget->setObjectName("verticalLayoutWidget");
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
@@ -503,21 +505,67 @@ public:
         verticalLayout->addWidget(treeView);
 
         splitter->addWidget(verticalLayoutWidget);
-        listView = new ListView(splitter);
-        listView->setObjectName("listView");
-        listView->setMinimumSize(QSize(0, 0));
-        listView->setMouseTracking(true);
-        listView->setStyleSheet(QString::fromUtf8("QListView {\n"
+        stackedWidget = new StackedWidget(splitter);
+        stackedWidget->setObjectName("stackedWidget");
+        stackedWidget->setMinimumSize(QSize(0, 0));
+        stackedWidget->setStyleSheet(QString::fromUtf8("QStackedWidget {\n"
+"	padding: 10px;\n"
 "	border: 1px solid rgb(47, 50, 60);\n"
 "	border-radius: 5px;\n"
-"	background-color: rgb(38, 41, 51);\n"
-"	padding: 10px;\n"
+"}\n"
+"QListView {\n"
+"	border: none;\n"
+"}\n"
+"QTreeView {\n"
+"	border: none;\n"
+"}\n"
+"QTreeView::branch {\n"
+"	image: none;\n"
+"}\n"
+"QHeaderView {\n"
+"	border: none;\n"
+"	border-radius: 5px;\n"
+"}\n"
+"QHeaderView::section {\n"
+"	background-color: rgb(28, 31, 41);\n"
+"	color: white;\n"
+"	border: none;\n"
+"	padding-left: 5px;\n"
+"	padding-top: 5px;\n"
+"}\n"
+"QHeaderView::section:middle {\n"
+"	border-left: 1px solid rgb(47, 50, 60);\n"
+"}\n"
+"QHeaderView::section:first {\n"
+"	border-top-left-radius: 5px;\n"
+"}\n"
+"QHeaderView::section:last {\n"
+"	border-left: 1px solid rgb(47, 50, 60);\n"
+"	border-right: 1px solid rgb(47, 50, 60);\n"
+"}\n"
+"QHeaderView::up-arrow {\n"
+"	width:  8px;\n"
+"	height: 8px;\n"
+"	image: url(:/icons/up_arrow_2.svg);\n"
+"	subcontrol-position: top;\n"
+"}\n"
+"QHeaderView::down-arrow {\n"
+"	width:  8px;\n"
+"	height: 8px;\n"
+"	image: url(:/icons/down_arrow.svg);\n"
+"	subcontrol-position:"
+                        " top;\n"
+"}\n"
+"QHeaderView::section:hover {\n"
+"	background-color: rgb(57, 60, 70);\n"
 "}"));
-        listView->setIconSize(QSize(0, 0));
-        listView->setFlow(QListView::LeftToRight);
-        listView->setSpacing(5);
-        listView->setWordWrap(true);
-        splitter->addWidget(listView);
+        page = new QWidget();
+        page->setObjectName("page");
+        stackedWidget->addWidget(page);
+        page_2 = new QWidget();
+        page_2->setObjectName("page_2");
+        stackedWidget->addWidget(page_2);
+        splitter->addWidget(stackedWidget);
 
         mainLayout->addWidget(splitter);
 
