@@ -19,10 +19,16 @@
         <file>icons/createfile.svg</file>
         <file>icons/createfolder.svg</file>
         <file>icons/viewmenu.svg</file>
-        <file>icons/properties.svg</file>
         <file>icons/down_arrow.svg</file>
         <file>icons/up_arrow_2.svg</file>
         <file>icons/iconmode.svg</file>
         <file>icons/listmode.svg</file>
+        <file>icons/properties.svg</file>
+        <file>icons/copy.svg</file>
+        <file>icons/cut.svg</file>
+        <file>icons/paste.svg</file>
+        <file>icons/open.svg</file>
+        <file>icons/rename.svg</file>
+        <file>icons/delete.svg</file>
     </qresource>
 </RCC>

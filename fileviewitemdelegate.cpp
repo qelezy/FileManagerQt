@@ -26,6 +26,7 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         if (listView) {
             QString filePath = index.data(QFileSystemModel::FilePathRole).toString();
             QFileInfo fileInfo(filePath);
+            painter->setRenderHint(QPainter::Antialiasing);
             QBrush backgroundBrush = Qt::transparent;
             if (option.state & QStyle::State_Selected) {
                 backgroundBrush = QColor(77, 80, 90);
@@ -34,7 +35,7 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
             }
             painter->setPen(Qt::NoPen);
             painter->setBrush(backgroundBrush);
-            painter->drawRoundedRect(option.rect, roundingRadius, roundingRadius);
+            painter->drawRoundedRect(QRect(option.rect.x() + 1, option.rect.y() + 1, option.rect.width() - 1, option.rect.height() - 1), roundingRadius, roundingRadius);
             if (fileInfo.isRoot()) {
 
                 QIcon icon(":/icons/disk.svg");
@@ -107,6 +108,7 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         } else if (treeView) {
             QString filePath = index.data(QFileSystemModel::FilePathRole).toString();
             QFileInfo fileInfo(filePath);
+            painter->setRenderHint(QPainter::Antialiasing);
             QBrush backgroundBrush = Qt::transparent;
             if (option.state & QStyle::State_Selected) {
                 backgroundBrush = QColor(77, 80, 90);
@@ -115,7 +117,7 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
             }
             painter->setPen(Qt::NoPen);
             painter->setBrush(backgroundBrush);
-            painter->drawRect(option.rect);
+            painter->drawRect(QRect(option.rect.x(), option.rect.y() + 1, option.rect.width() + 1, option.rect.height() - 2));
             painter->setPen(Qt::white);
             if (fileInfo.isRoot()) {
                 switch (index.column()) {
@@ -141,6 +143,7 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
                         painter->drawText(option.rect.adjusted(5, 0, 0, 0), Qt::AlignLeft | Qt::AlignVCenter, text);
                         break;
                     }
+
                 }
             } else if (fileInfo.isDir()) {
                 switch (index.column()) {
@@ -251,4 +254,91 @@ QSize FileViewItemDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
         return QSize(option.rect.width(), 24);
     }
     return QStyledItemDelegate::sizeHint(option, index);
+}
+
+QWidget *FileViewItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    Q_UNUSED(option);
+    Q_UNUSED(index);
+
+    QListView *listView = qobject_cast<QListView*>(this->parent());
+    QTreeView *treeView = qobject_cast<QTreeView*>(this->parent());
+
+    QTextEdit * editor = new QTextEdit(parent);
+    if (listView) {
+        QTextOption textOption;
+        textOption.setAlignment(Qt::AlignHCenter);
+        textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+
+        editor->document()->setDefaultTextOption(textOption);
+        editor->document()->setPageSize(QSize(elementWidth, INT_MAX));
+        editor->setStyleSheet("QTextEdit { border-radius: 5px; selection-background-color: rgb(150, 60, 94); border: 1px solid white; }");
+
+    } else if (treeView) {
+        QTextOption textOption;
+        textOption.setAlignment(Qt::AlignLeft);
+        textOption.setWrapMode(QTextOption::NoWrap);
+        editor->document()->setDefaultTextOption(textOption);
+        editor->setStyleSheet("QTextEdit { border-radius: 0px; selection-background-color: rgb(150, 60, 94); border: 1px solid white; }");
+
+    }
+    editor->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    editor->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    editor->installEventFilter(const_cast<FileViewItemDelegate*>(this));
+
+    return editor;
+}
+
+void FileViewItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    QString data = index.model()->data(index).toString();
+
+    QTextEdit * textEdit = qobject_cast<QTextEdit * >(editor);
+    textEdit->setText(data);
+    int dotIndex = data.lastIndexOf('.');
+    if (dotIndex == -1) {
+        textEdit->selectAll();
+    } else {
+        QTextCursor cursor = textEdit->textCursor();
+        cursor.setPosition(0);
+        cursor.setPosition(dotIndex, QTextCursor::KeepAnchor);
+        textEdit->setTextCursor(cursor);
+    }
+}
+
+void FileViewItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+    QTextEdit * textEdit = qobject_cast<QTextEdit * >(editor);
+    model->setData(index, textEdit->toPlainText());
+}
+
+void FileViewItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    Q_UNUSED(index);
+    QListView *listView = qobject_cast<QListView*>(this->parent());
+    QTreeView *treeView = qobject_cast<QTreeView*>(this->parent());
+
+    QRect rect = option.rect;
+    if (listView) {
+        rect.setY(option.rect.y() + iconSizeIconMode - 5);
+        rect.setWidth(option.rect.width() + 1);
+    } else if (treeView) {
+        rect.setX(option.rect.x() + iconSizeListMode);
+    }
+
+    editor->setGeometry(rect);
+}
+
+bool FileViewItemDelegate::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter) {
+            emit commitData(qobject_cast<QWidget*>(obj));
+            emit closeEditor(qobject_cast<QWidget*>(obj));
+            return true;
+        }
+    }
+    return QStyledItemDelegate::eventFilter(obj, event);
 }

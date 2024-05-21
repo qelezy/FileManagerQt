@@ -7,6 +7,7 @@
 #include <QButtonGroup>
 #include <QStandardPaths>
 #include <QProcess>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -34,6 +35,11 @@ private slots:
 
     void onFastMenuButton();
 
+    void onCreateFolder();
+    void onCreateFile();
+    void onCopy();
+    void onCut();
+    void onPaste();
     void onProperties();
 
 private:
@@ -43,7 +49,11 @@ private:
     QString currentPath;
     QList<QString> backPaths, forwardPaths;
     QButtonGroup *buttonGroup;
+    QModelIndexList itemsToCopy, itemsToMove;
 
+    void copyOrMoveDirectorySubtree(const QString & from, const QString & to, bool isOverwrite, bool isMove);
+    void moveDirectoryContentsToTrashRecursively(const QString &);
+    void removeFilesAndDirectoriesRecursively();
     void connectButtons();
 };
 #endif // MAINWINDOW_H

@@ -7,6 +7,7 @@
 
 class TitleBar : public QFrame
 {
+    Q_OBJECT
 public:
     TitleBar(QWidget *parent = nullptr);
 protected:

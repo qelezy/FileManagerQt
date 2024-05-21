@@ -802,14 +802,39 @@ padding-right: 5px;</string>
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 0;
 }
-QTreeView::item {
-	border-radius: 5px;
+QScrollBar:vertical {
+	background: transparent; 
+	width: 4px; 
+	border-radius: 2px; 
 }
-QTreeView::item:hover {
-	background-color: rgb(57, 60, 70);
+QScrollBar::handle:vertical {
+	background: rgb(97, 100, 110);
+	min-height: 10px; 
+	border-radius: 2px; 
 }
-QTreeView::item:selected {
-	background-color: rgb(77, 80, 90);
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+	background: none;
+	height: 0px;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+QScrollBar:horizontal {
+	background: transparent; 
+	height: 4px; 
+	border-radius: 2px;
+}
+QScrollBar::handle:horizontal {
+	background: rgb(97, 100, 110);
+	min-width: 10px; 
+	border-radius: 2px; 
+}
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+	background: none;
+	width: 0px;
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+	background: none;
 }</string>
                </property>
                <attribute name="headerVisible">
@@ -876,6 +901,40 @@ QHeaderView::down-arrow {
 }
 QHeaderView::section:hover {
 	background-color: rgb(57, 60, 70);
+}
+QScrollBar:vertical {
+	background: transparent; 
+	width: 4px; 
+	border-radius: 2px; 
+}
+QScrollBar::handle:vertical {
+	background: rgb(97, 100, 110);
+	min-height: 10px; 
+	border-radius: 2px; 
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+	background: none;
+	height: 0px;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+}
+QScrollBar:horizontal {
+	background: transparent; 
+	height: 4px; 
+	border-radius: 2px;
+}
+QScrollBar::handle:horizontal {
+	background: rgb(97, 100, 110);
+	min-width: 10px; 
+	border-radius: 2px; 
+}
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+	background: none;
+	width: 0px;
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+	background: none;
 }</string>
             </property>
             <widget class="QWidget" name="page"/>

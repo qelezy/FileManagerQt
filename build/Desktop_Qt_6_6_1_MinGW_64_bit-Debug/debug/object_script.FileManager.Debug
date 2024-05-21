@@ -9,6 +9,10 @@ debug/treeview.o
 debug/treeviewitemdelegate.o
 debug/qrc_resources.o
 debug/moc_filesystemmodel.o
+debug/moc_fileviewitemdelegate.o
 debug/moc_mainwindow.o
+debug/moc_resizableframe.o
 debug/moc_stackedwidget.o
+debug/moc_titlebar.o
 debug/moc_treeview.o
+debug/moc_treeviewitemdelegate.o

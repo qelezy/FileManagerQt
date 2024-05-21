@@ -8,6 +8,7 @@ enum startPosition {topLeft, bottomLeft, topRight, bottomRight, left, right, top
 
 class ResizableFrame : public QFrame
 {
+    Q_OBJECT
 public:
     ResizableFrame(QWidget *parent = nullptr);
 

@@ -7,6 +7,17 @@ void TreeViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     if (index.isValid()) {
         QString filePath = index.data(QFileSystemModel::FilePathRole).toString();
         QFileInfo fileInfo(filePath);
+        QBrush backgroundBrush = Qt::transparent;
+        if (option.state & QStyle::State_Selected) {
+            backgroundBrush = QColor(77, 80, 90);
+        } else if (option.state & QStyle::State_MouseOver) {
+            backgroundBrush = QColor(57, 60, 70);
+        }
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(backgroundBrush);
+        painter->drawRoundedRect(QRect(option.rect.x(), option.rect.y() + 1, option.rect.width(), option.rect.height() - 1), 5, 5);
+        painter->setPen(Qt::white);
         if (fileInfo.isRoot()) {
             QIcon icon(":/icons/disk.svg");
             QSize iconSize = icon.actualSize(option.rect.size());

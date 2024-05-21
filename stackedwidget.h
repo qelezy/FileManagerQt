@@ -8,6 +8,7 @@
 #include <QMouseEvent>
 #include <QContextMenuEvent>
 #include <QHeaderView>
+#include <QShortcut>
 
 class StackedWidget : public QStackedWidget
 {
@@ -16,14 +17,23 @@ public:
     StackedWidget(QWidget *parent = nullptr);
     QListView *listView;
     QTreeView *treeView;
-    QMenu *contextMenu;
+    QMenu *folderMenu, *selectedItemMenu;
 
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
 
-private slots:
-    void onProperties();
+signals:
+    void createFolderSignal();
+    void createFileSignal();
+    void pasteSignal();
+    void propertiesSignal();
+    void copySignal();
+    void cutSignal();
+    void deleteSignal();
+
+private:
+    void createMenus();
 
 };
 
