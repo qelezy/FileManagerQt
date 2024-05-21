@@ -4,6 +4,10 @@
 #include "fileviewitemdelegate.h"
 #include "filesystemmodel.h"
 
+#ifdef Q_OS_WIN
+#include <Windows.h>
+#endif
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -61,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->stackedWidget->treeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onFileViewItemDoubleClicked(QModelIndex)));
 
     connect(ui->currentPath, SIGNAL(returnPressed()), this, SLOT(currentPathChanged()));
+
+    connect(ui->stackedWidget->contextMenu->actions().last(), SIGNAL(triggered()), this, SLOT(onProperties()));
 
     connectButtons();
 }
@@ -203,6 +209,33 @@ void MainWindow::onFastMenuButton()
     forwardPaths.clear();
 
     ui->currentPath->setText(path);
+}
+
+void MainWindow::onProperties()
+{
+    #ifdef Q_OS_WIN
+
+        SHELLEXECUTEINFO sei = { sizeof(sei) };
+        sei.fMask = SEE_MASK_INVOKEIDLIST;
+        sei.lpVerb = L"properties";
+        std::wstring filePath = ui->currentPath->text().toStdWString();
+        sei.lpFile = filePath.c_str();
+        sei.nShow = SW_SHOW;
+        sei.hwnd = nullptr;
+
+        if (!ShellExecuteEx(&sei))
+        {
+            MessageBox(nullptr, L"Не удалось открыть окно свойств", L"Ошибка", MB_ICONERROR);
+        }
+
+    #elif defined(Q_OS_MAC)
+        // Формируем команду AppleScript для открытия окна свойств
+        QString script = QString(
+                             "osascript -e 'tell application \"Finder\" to open information window of (POSIX file \"%1\" as alias)'"
+                             ).arg(filePath);
+
+        QProcess::execute(script);
+    #endif
 }
 
 

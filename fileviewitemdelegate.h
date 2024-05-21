@@ -9,6 +9,8 @@
 #include <QTextDocument>
 #include <QListView>
 #include <QTreeView>
+#include <QMimeDatabase>
+#include <QMimeType>
 
 class FileViewItemDelegate : public QStyledItemDelegate
 {

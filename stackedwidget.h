@@ -16,13 +16,15 @@ public:
     StackedWidget(QWidget *parent = nullptr);
     QListView *listView;
     QTreeView *treeView;
+    QMenu *contextMenu;
 
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
 
-private:
-    QMenu *contextMenu;
+private slots:
+    void onProperties();
+
 };
 
 #endif // STACKEDWIDGET_H

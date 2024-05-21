@@ -6,6 +6,7 @@
 #include <QDesktopServices>
 #include <QButtonGroup>
 #include <QStandardPaths>
+#include <QProcess>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -32,6 +33,8 @@ private slots:
     void onForwardButton();
 
     void onFastMenuButton();
+
+    void onProperties();
 
 private:
     Ui::MainWindow *ui;

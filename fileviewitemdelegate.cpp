@@ -1,5 +1,12 @@
 #include "fileviewitemdelegate.h"
 
+#ifdef Q_OS_WIN
+#include <Windows.h>
+#include <shellapi.h>
+#elif defined(Q_OS_MAC)
+#include <Cocoa/Cocoa.h>
+#endif
+
 FileViewItemDelegate::FileViewItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {
     elementWidth = 80;
@@ -55,8 +62,37 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
                 painter->drawText(QRect(option.rect.x() + (option.rect.width() - textWidth) / 2, option.rect.y() + iconSizeIconMode, textWidth, option.rect.height()), text, textOption);
             } else {
+                QPixmap pixmap;
+                #ifdef Q_OS_WIN
+                SHFILEINFO shFileInfo;
+                memset(&shFileInfo, 0, sizeof(SHFILEINFO));
 
-                QIcon icon = QFileIconProvider().icon(fileInfo);
+                // Получаем иконку через SHGetFileInfo
+                SHGetFileInfo(filePath.toStdWString().c_str(),
+                              0,
+                              &shFileInfo,
+                              sizeof(SHFILEINFO),
+                              SHGFI_ICON | SHGFI_LARGEICON | SHGFI_USEFILEATTRIBUTES);
+                if (shFileInfo.hIcon) {
+                    pixmap = QPixmap::fromImage(QImage::fromHICON(shFileInfo.hIcon));
+                    DestroyIcon(shFileInfo.hIcon);
+                }
+                #elif defined (Q_OS_MAC)
+                NSString *path = [NSString stringWithUTF8String:fileInfo.absoluteFilePath().toUtf8().constData()];
+                NSString *extension = [path pathExtension];
+                NSImage *iconImage = [[NSWorkspace sharedWorkspace] iconForFileType:extension];
+
+                if (iconImage) {
+                    QImage qImage(iconImage.size.width, iconImage.size.height, QImage::Format_ARGB32);
+                    [iconImage lockFocus];
+                    NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, iconImage.size.width, iconImage.size.height)];
+                    [iconImage unlockFocus];
+                    qImage = QImage(bitmap.bitmapData(), bitmap.pixelsWide(), bitmap.pixelsHigh(), bitmap.bytesPerRow(), QImage::Format_ARGB32);
+                    delete bitmap;
+                    pixmap = QPixmap::fromImage(qImage));
+                }
+                #endif
+                QIcon icon(pixmap);
                 icon.paint(painter, QRect(option.rect.x() + (option.rect.width() - iconSizeIconMode) / 2, option.rect.y() + fileIconOffset, iconSizeIconMode, iconSizeIconMode), Qt::AlignHCenter | Qt::AlignTop);
 
                 painter->setPen(Qt::white);
@@ -134,7 +170,37 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
             } else {
                 switch (index.column()) {
                     case 0: {
-                        QIcon icon = QFileIconProvider().icon(fileInfo);
+                        QPixmap pixmap;
+                        #ifdef Q_OS_WIN
+                        SHFILEINFO shFileInfo;
+                        memset(&shFileInfo, 0, sizeof(SHFILEINFO));
+
+                        // Получаем иконку через SHGetFileInfo
+                        SHGetFileInfo(filePath.toStdWString().c_str(),
+                                      0,
+                                      &shFileInfo,
+                                      sizeof(SHFILEINFO),
+                                      SHGFI_ICON | SHGFI_LARGEICON | SHGFI_USEFILEATTRIBUTES);
+                        if (shFileInfo.hIcon) {
+                            pixmap = QPixmap::fromImage(QImage::fromHICON(shFileInfo.hIcon));
+                            DestroyIcon(shFileInfo.hIcon);
+                        }
+                        #elif defined (Q_OS_MAC)
+                        NSString *path = [NSString stringWithUTF8String:fileInfo.absoluteFilePath().toUtf8().constData()];
+                        NSString *extension = [path pathExtension];
+                        NSImage *iconImage = [[NSWorkspace sharedWorkspace] iconForFileType:extension];
+
+                        if (iconImage) {
+                            QImage qImage(iconImage.size.width, iconImage.size.height, QImage::Format_ARGB32);
+                            [iconImage lockFocus];
+                            NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, iconImage.size.width, iconImage.size.height)];
+                            [iconImage unlockFocus];
+                            qImage = QImage(bitmap.bitmapData(), bitmap.pixelsWide(), bitmap.pixelsHigh(), bitmap.bytesPerRow(), QImage::Format_ARGB32);
+                            delete bitmap;
+                            pixmap = QPixmap::fromImage(qImage));
+                        }
+                        #endif
+                        QIcon icon(pixmap);
                         icon.paint(painter, QRect(option.rect.x() + 4, option.rect.y() + 4, 16, 16), Qt::AlignLeft | Qt::AlignVCenter);
                         QString text = index.data(Qt::DisplayRole).toString();
                         painter->drawText(option.rect.adjusted(iconSizeListMode + textOffsetListMode, 0, 0, 0), Qt::AlignLeft | Qt::AlignVCenter, text);

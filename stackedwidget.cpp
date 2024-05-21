@@ -18,7 +18,6 @@ StackedWidget::StackedWidget(QWidget *parent) : QStackedWidget(parent)
     addWidget(treeView);
 
     contextMenu = new QMenu(this);
-    //contextMenu->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     contextMenu->setWindowFlag(Qt::FramelessWindowHint);
     contextMenu->setAttribute(Qt::WA_TranslucentBackground);
     contextMenu->setWindowFlag(Qt::NoDropShadowWindowHint);
@@ -39,7 +38,6 @@ StackedWidget::StackedWidget(QWidget *parent) : QStackedWidget(parent)
     iconMode->setCheckable(true);
     iconMode->setChecked(true);
     listMode->setCheckable(true);
-    //viewMenu->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     iconMode->setIcon(QIcon(":/icons/iconmode.svg"));
     iconMode->setText("Значки");
     connect(iconMode, &QAction::triggered, this, [=]{
@@ -62,6 +60,7 @@ StackedWidget::StackedWidget(QWidget *parent) : QStackedWidget(parent)
     createFile->setText("Создать файл");
     properties->setIcon(QIcon(":/icons/properties.svg"));
     properties->setText("Свойства");
+    connect(properties, SIGNAL(triggered()), this, SLOT(onProperties()));
 
     viewMenu->addAction(iconMode);
     viewMenu->addAction(listMode);
@@ -86,4 +85,13 @@ void StackedWidget::contextMenuEvent(QContextMenuEvent *event)
     if (event->reason() == QContextMenuEvent::Mouse) {
         contextMenu->exec(event->globalPos());
     }
+}
+
+void StackedWidget::onProperties()
+{
+    #ifdef Q_OS_WIN
+
+    #elif defined(Q_OS_MAC)
+    // Код для macOS
+    #endif
 }
