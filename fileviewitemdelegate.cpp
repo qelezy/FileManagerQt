@@ -35,7 +35,7 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
             }
             painter->setPen(Qt::NoPen);
             painter->setBrush(backgroundBrush);
-            painter->drawRoundedRect(QRect(option.rect.x() + 1, option.rect.y() + 1, option.rect.width() - 1, option.rect.height() - 1), roundingRadius, roundingRadius);
+            painter->drawRoundedRect(option.rect, roundingRadius, roundingRadius);
             if (fileInfo.isRoot()) {
 
                 QIcon icon(":/icons/disk.svg");
@@ -117,7 +117,7 @@ void FileViewItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
             }
             painter->setPen(Qt::NoPen);
             painter->setBrush(backgroundBrush);
-            painter->drawRect(QRect(option.rect.x(), option.rect.y() + 1, option.rect.width() + 1, option.rect.height() - 2));
+            painter->drawRect(option.rect);
             painter->setPen(Qt::white);
             if (fileInfo.isRoot()) {
                 switch (index.column()) {

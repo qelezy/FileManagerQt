@@ -344,9 +344,17 @@ void MainWindow::onProperties()
     #ifdef Q_OS_WIN
     QModelIndex index;
     if (ui->stackedWidget->currentWidget() == ui->stackedWidget->listView) {
-        index = ui->stackedWidget->listView->currentIndex();
+        if (ui->stackedWidget->listView->selectionModel()->hasSelection()) {
+            index = ui->stackedWidget->listView->currentIndex();
+        } else {
+            index = fileModel->index(ui->currentPath->text());
+        }
     } else if (ui->stackedWidget->currentWidget() == ui->stackedWidget->treeView) {
-        index = ui->stackedWidget->treeView->currentIndex();
+        if (ui->stackedWidget->treeView->selectionModel()->hasSelection()) {
+            index = ui->stackedWidget->treeView->currentIndex();
+        } else {
+            index = fileModel->index(ui->currentPath->text());
+        }
     }
     std::wstring filePath;
     if (index.isValid()) {

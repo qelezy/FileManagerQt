@@ -10,6 +10,7 @@ StackedWidget::StackedWidget(QWidget *parent) : QStackedWidget(parent)
 
     listView->setSelectionBehavior(QAbstractItemView::SelectItems);
     listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    listView->setDragDropMode(QAbstractItemView::InternalMove);
 
     treeView = new QTreeView(this);
     treeView->setSortingEnabled(true);
@@ -21,6 +22,7 @@ StackedWidget::StackedWidget(QWidget *parent) : QStackedWidget(parent)
 
     treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
     treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    treeView->setDragDropMode(QAbstractItemView::InternalMove);
 
     addWidget(listView);
     addWidget(treeView);
@@ -46,7 +48,7 @@ void StackedWidget::contextMenuEvent(QContextMenuEvent *event)
                 this->folderMenu->exec(event->globalPos());
             }
         } else if (currentWidget() == treeView) {
-            if (treeView->indexAt(event->pos()).isValid()) {
+            if (treeView->indexAt(event->pos()).isValid() || treeView->selectionModel()->hasSelection()) {
                 this->selectedItemMenu->exec(event->globalPos());
             } else {
                 this->folderMenu->exec(event->globalPos());

@@ -23,12 +23,9 @@ void TitleBar::mouseMoveEvent(QMouseEvent *event)
 {
     if (isDragging) {
         if (window()->isMaximized()) {
-            //MainWindow *mainWindow = qobject_cast<MainWindow*>(window());
             QIcon icon;
             icon.addFile(":/icons/fullscreen_icon.svg", QSize(18, 18));
-            //ui->maximizeButton->setIcon(icon);
             findChild<QPushButton*>("maximizeButton")->setIcon(icon);
-            //ui->window
             window()->findChild<QFrame*>("window")->setStyleSheet("QFrame {background-color: rgb(28, 31, 41); color: white; border: 1px solid rgb(47, 50, 60); border-radius: 10px;}");
             double windowWidth = window()->width();
             window()->showNormal();
